@@ -3,19 +3,19 @@
 10/08/2020
  Changes:
 
-    Deleted old files
+Deleted old files
 
-    Started new files of the main project
+Started new files of the main project
 
 
 
 15/09/202
  Changes:
 
-    Two new metods for:
+Two new metods for:
 
-Compare the prices of each store
+    Compare the prices of each store
 
-Store the building type of each material
+    Store the building type of each material
 
-    Javadocs
+Javadocs
