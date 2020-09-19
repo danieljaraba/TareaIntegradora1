@@ -12,7 +12,7 @@ public class TareaIntegradora1{
         double[] pricesOfMaterialsInFB;
         double[] bestPrices;
         int[] amountOfEveryMaterial;
-        Object[] buildingTypeMaterials;
+        buildingType[] buildingTypeMaterials;
         int[] bestPlaceForEachMaterial;
         int amountOfMaterials;
         int ubication = 0;
@@ -27,7 +27,7 @@ public class TareaIntegradora1{
         pricesOfMaterialsInFB = new double[amountOfMaterials];
         bestPrices = new double[amountOfMaterials];
         amountOfEveryMaterial = new int[amountOfMaterials];
-        buildingTypeMaterials = new Object[amountOfMaterials];
+        buildingTypeMaterials = new buildingType[amountOfMaterials];
         bestPlaceForEachMaterial = new int[amountOfMaterials];
 
         System.out.println("Write the names of the materials solicited by the foreman:");
@@ -86,6 +86,8 @@ public class TareaIntegradora1{
             }
         }
         System.out.println("The total value of the materials are: "+totalForBestPrices(bestPrices, amountOfEveryMaterial, amountOfMaterials, ubication, buildingTypeMaterials));
+
+        arrayOfTypes(namesOfMaterials, amountOfMaterials, buildingTypeMaterials);
     }
 
     /**
@@ -128,9 +130,9 @@ public class TareaIntegradora1{
      * @return arrayType, array of the type buildingType that contains the type of building for each material.
      */
 
-    public static Object[] buildingTypeOfEachMaterial(String[] arrayNames, int amountOfMaterials){
+    public static buildingType[] buildingTypeOfEachMaterial(String[] arrayNames, int amountOfMaterials){
         int option;
-        Object[] arrayType = new Object[amountOfMaterials];
+        buildingType[] arrayType = new buildingType[amountOfMaterials];
         for(int i = 0; i<amountOfMaterials; i++){
             System.out.print(arrayNames[i]+": ");
             option = sc.nextInt();
@@ -149,7 +151,7 @@ public class TareaIntegradora1{
         return arrayType;
     }
 
-    public static double totalForEachStablishment(double[] stablishment, int[] amountOfEachMaterial, int amountOfMaterials, Object[] typeOfBuilding){
+    public static double totalForEachStablishment(double[] stablishment, int[] amountOfEachMaterial, int amountOfMaterials, buildingType[] typeOfBuilding){
         int blackType = 0;
         int whiteType = 0;
         int paintingType = 0;
@@ -179,7 +181,7 @@ public class TareaIntegradora1{
         return total;
     }
 
-    public static double totalForBestPrices(double[] bestPrices, int[] amountOfEachMaterial, int amountOfMaterials, int ubication, Object[] typeOfBuilding){
+    public static double totalForBestPrices(double[] bestPrices, int[] amountOfEachMaterial, int amountOfMaterials, int ubication, buildingType[] typeOfBuilding){
         int blackType = 0;
         int whiteType = 0;
         int paintingType = 0;
@@ -236,5 +238,65 @@ public class TareaIntegradora1{
         }
 
         return total;
+    }
+
+    public static void arrayOfTypes(String[] nameOfMaterials, int amountOfMaterials, buildingType[] typeOfBuilding){
+        int counterB = 0;
+        int counterW = 0;
+        int counterP = 0;
+        String[] whiteArray;
+        String[] blackArray;
+        String[] paintingArray;
+        for(int i = 0; i<amountOfMaterials; i++){
+            if(typeOfBuilding[i]==buildingType.WHITE){
+                counterW++;
+            } else if(typeOfBuilding[i]==buildingType.BLACK){
+                counterB++;
+            } else{
+                counterP++;
+            }
+        }
+        whiteArray = new String[counterW];
+        blackArray = new String[counterB];
+        paintingArray = new String[counterP];
+        counterB = 0;
+        counterW = 0;
+        counterP = 0;
+        for(int i = 0; i<amountOfMaterials; i++){
+            if(typeOfBuilding[i]==buildingType.WHITE){
+                whiteArray[counterW] = nameOfMaterials[i];
+                counterW++;
+            } else if(typeOfBuilding[i]==buildingType.BLACK){
+                blackArray[counterB] = nameOfMaterials[i];
+                counterB++;
+            } else{
+                paintingArray[counterP] = nameOfMaterials[i];
+                counterP++;
+            }
+        }
+        if(counterW>0){
+            System.out.println("Los materiales de la obra blanca son: ");
+            for(int i = 0; i<whiteArray.length; i++){
+                System.out.println(whiteArray[i]);
+            }
+        } else{
+            System.out.println("No hay materiales de obra blanca");
+        }
+        if(counterB>0){
+            System.out.println("Los materiales de la obra negra son: ");
+            for(int i = 0; i<blackArray.length; i++){
+                System.out.println(blackArray[i]);
+            }
+        } else{
+            System.out.println("No hay materiales de obra negra");
+        }
+        if(counterP>0){
+            System.out.println("Los materiales de pintura son: ");
+            for(int i = 0; i<paintingArray.length; i++){
+                System.out.println(paintingArray[i]);
+            }
+        } else{
+            System.out.println("No hay materiales de pintura");
+        }
     }
 }
