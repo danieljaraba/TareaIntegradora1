@@ -6,16 +6,17 @@ public class TareaIntegradora1{
 
     public static void main(String[] args) {
         
-        String[] namesOfMaterials;
-        double[] pricesOfMaterialsInHC;
-        double[] pricesOfMaterialsInFC;
-        double[] pricesOfMaterialsInFB;
-        double[] bestPrices;
-        int[] amountOfEveryMaterial;
-        buildingType[] buildingTypeMaterials;
-        int[] bestPlaceForEachMaterial;
-        int amountOfMaterials;
-        int ubication = 0;
+        //Entradas
+        String[] namesOfMaterials; // Sirve para guardar el nombre de los materiales
+        double[] pricesOfMaterialsInHC; // Guarda el precio de HomeCenter
+        double[] pricesOfMaterialsInFC; // Guarda el precio de la ferreteria de centro
+        double[] pricesOfMaterialsInFB; // Guarda el precio de la ferreteria de barrio
+        double[] bestPrices; // Contiene los mejores precios de cada material
+        int[] amountOfEveryMaterial; // Contiene la cantidad de cada material
+        BuildingType[] buildingTypeMaterials; // Contiene el typo de obra de cada material
+        int[] bestPlaceForEachMaterial; // Contiene donde es mejor comprar cada material
+        int amountOfMaterials; // Contiene la cantidad de materiales
+        int ubication = 0; // Opcion de la ubicacion del material
 
         System.out.println("Write the amount of materials solicited by the foreman:");
         amountOfMaterials = sc.nextInt();
@@ -27,7 +28,7 @@ public class TareaIntegradora1{
         pricesOfMaterialsInFB = new double[amountOfMaterials];
         bestPrices = new double[amountOfMaterials];
         amountOfEveryMaterial = new int[amountOfMaterials];
-        buildingTypeMaterials = new buildingType[amountOfMaterials];
+        buildingTypeMaterials = new BuildingType[amountOfMaterials];
         bestPlaceForEachMaterial = new int[amountOfMaterials];
 
         System.out.println("Write the names of the materials solicited by the foreman:");
@@ -69,6 +70,7 @@ public class TareaIntegradora1{
         System.out.println("HomeCenter: "+totalForEachStablishment(pricesOfMaterialsInHC, amountOfEveryMaterial, amountOfMaterials, buildingTypeMaterials));
         System.out.println("Central HardWard Store: "+totalForEachStablishment(pricesOfMaterialsInFC, amountOfEveryMaterial, amountOfMaterials, buildingTypeMaterials));
         System.out.println("Neighborhood HardWard Store: "+totalForEachStablishment(pricesOfMaterialsInFB, amountOfEveryMaterial, amountOfMaterials, buildingTypeMaterials));
+        System.out.println("");
 
         System.out.println("The best place and price for each material is:");
         bestPrices = bestPriceOfMaterials(pricesOfMaterialsInHC, pricesOfMaterialsInFC, pricesOfMaterialsInFB, bestPlaceForEachMaterial, amountOfMaterials);
@@ -85,7 +87,9 @@ public class TareaIntegradora1{
                 break;
             }
         }
+        System.out.println("");
         System.out.println("The total value of the materials are: "+totalForBestPrices(bestPrices, amountOfEveryMaterial, amountOfMaterials, ubication, buildingTypeMaterials));
+        System.out.println("");
 
         arrayOfTypes(namesOfMaterials, amountOfMaterials, buildingTypeMaterials);
     }
@@ -130,38 +134,48 @@ public class TareaIntegradora1{
      * @return arrayType, array of the type buildingType that contains the type of building for each material.
      */
 
-    public static buildingType[] buildingTypeOfEachMaterial(String[] arrayNames, int amountOfMaterials){
+    public static BuildingType[] buildingTypeOfEachMaterial(String[] arrayNames, int amountOfMaterials){
         int option;
-        buildingType[] arrayType = new buildingType[amountOfMaterials];
+        BuildingType[] arrayType = new BuildingType[amountOfMaterials];
         for(int i = 0; i<amountOfMaterials; i++){
             System.out.print(arrayNames[i]+": ");
             option = sc.nextInt();
             switch(option){
                 case 1:
-                    arrayType[i] = buildingType.WHITE;
+                    arrayType[i] = BuildingType.WHITE;
                 break;
                 case 2:
-                    arrayType[i] = buildingType.BLACK;
+                    arrayType[i] = BuildingType.BLACK;
                 break;
                 case 3:
-                    arrayType[i] = buildingType.PAINTING;
+                    arrayType[i] = BuildingType.PAINTING;
                 break;
             }
         }
         return arrayType;
     }
 
-    public static double totalForEachStablishment(double[] stablishment, int[] amountOfEachMaterial, int amountOfMaterials, buildingType[] typeOfBuilding){
+    /**
+     * Calculates the total of the materials in a stablishment. <br>
+     * <b>pre: <b/> You need an array with the price of each material in the stablishment. <br>
+     * <b>post: <b/> <br>
+     * @param stablishment double array, contains the prices of the materials in the stablishment.
+     * @param amountOfEachMaterial int array, amount of each material that gonna be purchased.
+     * @param amountOfMaterials int, amount of materials that gonna be purchased.
+     * @param typeOfBuilding BuildingType array, contains the type of building for each material.
+     * @return total, double that contains the total price for the stablishment.
+     */
+    public static double totalForEachStablishment(double[] stablishment, int[] amountOfEachMaterial, int amountOfMaterials, BuildingType[] typeOfBuilding){
         int blackType = 0;
         int whiteType = 0;
         int paintingType = 0;
         double total = 0;
         for(int i = 0; i<amountOfMaterials; i++){
             total += (stablishment[i]*amountOfEachMaterial[i]);
-            if(typeOfBuilding[i]==buildingType.WHITE){
+            if(typeOfBuilding[i]==BuildingType.WHITE){
                 whiteType++;
             }
-            else if(typeOfBuilding[i]==buildingType.BLACK){
+            else if(typeOfBuilding[i]==BuildingType.BLACK){
                 blackType++;
             }
             else{
@@ -181,17 +195,28 @@ public class TareaIntegradora1{
         return total;
     }
 
-    public static double totalForBestPrices(double[] bestPrices, int[] amountOfEachMaterial, int amountOfMaterials, int ubication, buildingType[] typeOfBuilding){
+    /**
+     * Calculates the total price of the materials, using the best price for each material and adds the delivery. <br>
+     * <b>pre: <b/> You need an array with the best prices for each stablishment, an array with the amount of each material, and array with the building type of each material. <br>
+     * <b>post: <b/> <br>
+     * @param bestPrices double array, contains the best price for each material.
+     * @param amountOfEachMaterial int array, contains the quantity of each material.
+     * @param amountOfMaterials int, the amount of materials that gonna be purchased.
+     * @param ubication int, option of the ubication where is the building.
+     * @param typeOfBuilding BuildingType array, contains the building type of each material.
+     * @return total, double that is the total of the count.
+     */
+    public static double totalForBestPrices(double[] bestPrices, int[] amountOfEachMaterial, int amountOfMaterials, int ubication, BuildingType[] typeOfBuilding){
         int blackType = 0;
         int whiteType = 0;
         int paintingType = 0;
         double total = 0;
         for(int i = 0; i<amountOfMaterials; i++){
             total += (bestPrices[i]*amountOfEachMaterial[i]);
-            if(typeOfBuilding[i]==buildingType.WHITE){
+            if(typeOfBuilding[i]==BuildingType.WHITE){
                 whiteType++;
             }
-            else if(typeOfBuilding[i]==buildingType.BLACK){
+            else if(typeOfBuilding[i]==BuildingType.BLACK){
                 blackType++;
             }
             else{
@@ -240,7 +265,15 @@ public class TareaIntegradora1{
         return total;
     }
 
-    public static void arrayOfTypes(String[] nameOfMaterials, int amountOfMaterials, buildingType[] typeOfBuilding){
+    /**
+     * Prints the ammount of material for each type of building <br>
+     * <b>pre: <b/> You need an array with the type of building of each material <br>
+     * <b>pos: <b/> <br>
+     * @param nameOfMaterials String array, contains the name of each material
+     * @param amountOfMaterials int, is the ammount of the materials that gonna be purchased
+     * @param typeOfBuilding BuildingType array, contains the type of building of each material.
+     */
+    public static void arrayOfTypes(String[] nameOfMaterials, int amountOfMaterials, BuildingType[] typeOfBuilding){
         int counterB = 0;
         int counterW = 0;
         int counterP = 0;
@@ -248,9 +281,9 @@ public class TareaIntegradora1{
         String[] blackArray;
         String[] paintingArray;
         for(int i = 0; i<amountOfMaterials; i++){
-            if(typeOfBuilding[i]==buildingType.WHITE){
+            if(typeOfBuilding[i]==BuildingType.WHITE){
                 counterW++;
-            } else if(typeOfBuilding[i]==buildingType.BLACK){
+            } else if(typeOfBuilding[i]==BuildingType.BLACK){
                 counterB++;
             } else{
                 counterP++;
@@ -263,10 +296,10 @@ public class TareaIntegradora1{
         counterW = 0;
         counterP = 0;
         for(int i = 0; i<amountOfMaterials; i++){
-            if(typeOfBuilding[i]==buildingType.WHITE){
+            if(typeOfBuilding[i]==BuildingType.WHITE){
                 whiteArray[counterW] = nameOfMaterials[i];
                 counterW++;
-            } else if(typeOfBuilding[i]==buildingType.BLACK){
+            } else if(typeOfBuilding[i]==BuildingType.BLACK){
                 blackArray[counterB] = nameOfMaterials[i];
                 counterB++;
             } else{

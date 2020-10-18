@@ -1,4 +1,4 @@
-public enum buildingType{
+public enum BuildingType{
     WHITE,
     BLACK,
     PAINTING
